@@ -1,0 +1,55 @@
+# Import Libraries:
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, classification_report
+
+
+#Data Preparation:
+
+
+# Load your dataset
+
+
+data = pd.read_csv('spam_dataset.csv')
+
+# Separate text and labels
+X = data['message']
+y = data['label']
+
+## Load your dataset
+data = pd.read_csv('spam_dataset.csv')
+
+# Separate text and labels
+X = data['message']
+y = data['label']
+
+4. Split the Data:
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#Feature Extraction:
+
+
+vectorizer = TfidfVectorizer(max_features=5000)  # You can adjust max_features as needed
+X_train = vectorizer.fit_transform(X_train)
+X_test = vectorizer.transform(X_test)
+
+#Model Selection and Training:
+
+classifier = MultinomialNB()
+classifier.fit(X_train, y_train)
+
+#Model Evaluation:
+
+y_pred = classifier.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+report = classification_report(y_test, y_pred)
+print("Classification Report:\n", report)
+
+
